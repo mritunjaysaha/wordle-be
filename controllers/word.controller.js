@@ -1,8 +1,6 @@
-import { Request, Response } from "express";
+const { generateRandomWord } = require("../utils/generateRandomWord");
 
-import { generateRandomWord } from "../utils/generateRandomWord";
-
-export const getWord = (req: Request, res: Response) => {
+const getWord = (req, res) => {
     const word = generateRandomWord();
 
     if (word) {
@@ -14,3 +12,5 @@ export const getWord = (req: Request, res: Response) => {
         message: "Failed to generate word",
     });
 };
+
+module.exports = { getWord };
