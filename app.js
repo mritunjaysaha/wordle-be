@@ -1,12 +1,11 @@
 require("dotenv").config();
 
-import express from "express";
-
-import cors from "cors";
-import cookieParser from "cookie-parser";
+const express = require("express");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
 
 // ROUTES
-import wordRoutesV1 from "./routes/v1/words.routes";
+const wordRoutesV1 = require("./routes/v1/words.routes");
 
 const app = express();
 
@@ -20,4 +19,4 @@ app.get("/", (req, res) => {
 
 app.use("/api/v1/words", wordRoutesV1);
 
-export { app };
+module.exports = { app };
