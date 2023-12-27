@@ -33,7 +33,7 @@ jspm_packages/
 *.swp
 
 # Built files
-dist/
+# dist/
 build/
 out/
 .bundle/
