@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-const db = process.env.MONGO_URI;
+const db: string = process.env.MONGO_URI;
 
 const options = {
     useUnifiedTopology: true,
@@ -9,9 +9,9 @@ const options = {
 
 export const connectDB = async () => {
     try {
-        await mongoose.connect(db, options);
+        await mongoose.connect(db, options as any);
         console.log("Database connection established");
-    } catch (err) {
+    } catch (err: any) {
         console.error(err.message);
         process.exit(1);
     }

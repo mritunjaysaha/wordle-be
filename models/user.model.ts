@@ -2,17 +2,16 @@ import { model, Schema, Model, Document } from "mongoose";
 import crypto from "crypto";
 import { v1 as uuidV1 } from "uuid";
 
-// export interface IUser extends Document {
-//     firstName: string;
-//     lastName: string;
-//     email: string;
-//     encryptedPassword: string;
-//     salt: string;
-//     todos: string[];
-//     labels: string[];
-// }
+export interface IUser extends Document {
+    firstName: string;
+    lastName: string;
+    email: string;
+    encryptedPassword: string;
+    salt: string;
+    solvedWords: string[];
+}
 
-const UserSchema = new Schema(
+const UserSchema: Schema = new Schema(
     {
         firstName: {
             type: String,
@@ -38,8 +37,7 @@ const UserSchema = new Schema(
         salt: {
             type: String,
         },
-        todos: [{ type: Schema.Types.ObjectId, ref: "todos" }],
-        labels: [{ type: Schema.Types.ObjectId, ref: "labels" }],
+        words: [],
     },
     { timestamps: true }
 );
@@ -55,10 +53,10 @@ UserSchema.virtual("password")
     });
 
 UserSchema.methods = {
-    authenticate: function (plainPassword) {
+    authenticate: function (plainPassword: string) {
         return this.securePassword(plainPassword) === this.encryptedPassword;
     },
-    securePassword: function (plainPassword) {
+    securePassword: function (plainPassword: string) {
         if (!plainPassword) return "";
 
         try {
@@ -72,4 +70,4 @@ UserSchema.methods = {
     },
 };
 
-export const UserModel: Model<IUser> = model < IUser > ("users", UserSchema);
+export const UserModel: Model<IUser> = model<IUser>("users", UserSchema);
