@@ -63,3 +63,9 @@ export const signIn = async (req: Request, res: Response) => {
         });
     } catch (err) {}
 };
+
+export const signOut = (req: Request, res: Response) => {
+    res.clearCookie("token");
+
+    return res.json({ message: "signed out" });
+};

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.signIn = exports.signUp = void 0;
+exports.signOut = exports.signIn = exports.signUp = void 0;
 const user_model_1 = require("../models/user.model");
 const express_validator_1 = require("express-validator");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -63,4 +63,9 @@ const signIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     catch (err) { }
 });
 exports.signIn = signIn;
+const signOut = (req, res) => {
+    res.clearCookie("token");
+    return res.json({ message: "signed out" });
+};
+exports.signOut = signOut;
 //# sourceMappingURL=auth.controller.js.map
