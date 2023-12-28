@@ -13,3 +13,4 @@ const getWord = (req, res) => {
     });
 };
 exports.getWord = getWord;
+//# sourceMappingURL=word.controller.js.map
