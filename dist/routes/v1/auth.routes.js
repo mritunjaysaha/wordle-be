@@ -3,7 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const express_validator_1 = require("express-validator");
 const auth_controller_1 = require("../../controllers/auth.controller");
+const user_controller_1 = require("../../controllers/user.controller");
 const router = (0, express_1.Router)();
+router.param("userId", user_controller_1.getUserById);
 /**
  * @method POST
  * @route /api/v1/auth/signup

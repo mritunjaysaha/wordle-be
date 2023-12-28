@@ -6,8 +6,11 @@ import {
     signUp,
     signIn,
 } from "../../controllers/auth.controller";
+import { getUserById } from "../../controllers/user.controller";
 
 const router = Router();
+
+router.param("userId", getUserById);
 
 /**
  * @method POST
