@@ -19,3 +19,4 @@ app.get("/", (req, res) => {
     res.send("server up and running");
 });
 app.use("/api/v1/words", words_routes_1.default);
+//# sourceMappingURL=app.js.map

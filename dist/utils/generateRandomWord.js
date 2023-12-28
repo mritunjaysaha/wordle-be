@@ -9,3 +9,4 @@ function generateRandomWord() {
     return words_json_1.default[Math.floor(Math.random() * words_json_1.default.length)];
 }
 exports.generateRandomWord = generateRandomWord;
+//# sourceMappingURL=generateRandomWord.js.map
