@@ -3,7 +3,7 @@ import { validationResult } from "express-validator";
 
 import jwt from "jsonwebtoken";
 
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import type { Error } from "mongoose";
 import { expressjwt } from "express-jwt";
 
@@ -76,3 +76,20 @@ export const isSignedIn = expressjwt({
     userProperty: "auth",
     algorithms: ["sha256", "RS256", "HS256"],
 });
+
+export const isAuthenticated = (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    // @ts-ignore
+    const { profile, auth } = req;
+
+    const checker = profile && auth && profile._id.toString() === auth._id;
+
+    if (!checker) {
+        return res.status(401).json({ error: "ACCESS DENIED" });
+    }
+
+    next();
+};

@@ -1,16 +1,13 @@
 import { Router, Request, Response } from "express";
 import { check } from "express-validator";
 import {
-    signup,
-    login,
     signOut,
     isSignedIn,
+    signUp,
+    signIn,
 } from "../../controllers/auth.controller";
-import { getUserById } from "../../controllers/user.controller";
 
 const router = Router();
-
-router.param("userId", getUserById);
 
 /**
  * @method POST
@@ -29,7 +26,7 @@ router.post(
             "Password should have at least 3 characters"
         ).isLength({ min: 3 }),
     ],
-    signup
+    signUp
 );
 
 /**
@@ -42,7 +39,7 @@ router.post(
         check("email", "E-mail is required").isEmail(),
         check("password", "Password is require").isLength({ min: 1 }),
     ],
-    login
+    signIn
 );
 
 /**
@@ -56,6 +53,7 @@ router.get("/logout", signOut);
  * @route /api/v1/auth/is-signed-in
  */
 router.get("/is-signed-in", isSignedIn, (req, res) => {
+    // @ts-ignore
     res.json(req.auth);
 });
 

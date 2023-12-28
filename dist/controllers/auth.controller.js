@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isSignedIn = exports.signOut = exports.signIn = exports.signUp = void 0;
+exports.isAuthenticated = exports.isSignedIn = exports.signOut = exports.signIn = exports.signUp = void 0;
 const user_model_1 = require("../models/user.model");
 const express_validator_1 = require("express-validator");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -74,4 +74,14 @@ exports.isSignedIn = (0, express_jwt_1.expressjwt)({
     userProperty: "auth",
     algorithms: ["sha256", "RS256", "HS256"],
 });
+const isAuthenticated = (req, res, next) => {
+    // @ts-ignore
+    const { profile, auth } = req;
+    const checker = profile && auth && profile._id.toString() === auth._id;
+    if (!checker) {
+        return res.status(401).json({ error: "ACCESS DENIED" });
+    }
+    next();
+};
+exports.isAuthenticated = isAuthenticated;
 //# sourceMappingURL=auth.controller.js.map
