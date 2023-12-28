@@ -12,10 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.signOut = exports.signIn = exports.signUp = void 0;
+exports.isSignedIn = exports.signOut = exports.signIn = exports.signUp = void 0;
 const user_model_1 = require("../models/user.model");
 const express_validator_1 = require("express-validator");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const express_jwt_1 = require("express-jwt");
 const signUp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const errors = (0, express_validator_1.validationResult)(req);
@@ -68,4 +69,9 @@ const signOut = (req, res) => {
     return res.json({ message: "signed out" });
 };
 exports.signOut = signOut;
+exports.isSignedIn = (0, express_jwt_1.expressjwt)({
+    secret: process.env.SECRET,
+    userProperty: "auth",
+    algorithms: ["sha256", "RS256", "HS256"],
+});
 //# sourceMappingURL=auth.controller.js.map

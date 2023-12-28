@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 
 import { Request, Response } from "express";
 import type { Error } from "mongoose";
+import { expressjwt } from "express-jwt";
 
 export const signUp = async (req: Request, res: Response) => {
     try {
@@ -69,3 +70,9 @@ export const signOut = (req: Request, res: Response) => {
 
     return res.json({ message: "signed out" });
 };
+
+export const isSignedIn = expressjwt({
+    secret: process.env.SECRET,
+    userProperty: "auth",
+    algorithms: ["sha256", "RS256", "HS256"],
+});
