@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 const db: string = process.env.MONGO_URI;
 
 const options = {
-    useUnifiedTopology: true,
     useNewUrlParser: true,
 };
 

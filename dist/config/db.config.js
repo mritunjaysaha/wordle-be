@@ -16,7 +16,6 @@ exports.connectDB = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const db = process.env.MONGO_URI;
 const options = {
-    useUnifiedTopology: true,
     useNewUrlParser: true,
 };
 const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {

@@ -72,6 +72,7 @@ exports.signOut = signOut;
 exports.isSignedIn = (0, express_jwt_1.expressjwt)({
     secret: process.env.SECRET,
     userProperty: "auth",
+    // @ts-ignore
     algorithms: ["sha256", "RS256", "HS256"],
 });
 const isAuthenticated = (req, res, next) => {
