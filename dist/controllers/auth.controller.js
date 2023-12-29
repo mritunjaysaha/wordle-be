@@ -40,26 +40,6 @@ const signIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             return res.status(400).json({ error: errors.array() });
         }
         const { email, password } = req.body;
-        // @ts-ignore
-        // UserModel.findOne({ email }, (err: Error, user) => {
-        //     if (err) {
-        //         return res.status(422).json({ error: err });
-        //     }
-        //     if (!user) {
-        //         return res.status(400).json({ error: "Email doesn't exists" });
-        //     }
-        //     if (!user.authenticate(password)) {
-        //         return res.status(401).json({
-        //             error: "Email and password fo not match",
-        //         });
-        //     }
-        //     const token = jwt.sign({ _id: user._id }, process.env.SECRET);
-        //     res.cookie("token", token, {
-        //         expires: new Date(Date.now() + 9999),
-        //     });
-        //     const { email, firstName, lastName } = user;
-        //     return res.json({ token, user: { email, firstName, lastName } });
-        // });
         const user = yield user_model_1.UserModel.findOne({ email });
         if (!user) {
             return res.status(400).json({ error: "Email doesn't exists" });

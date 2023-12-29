@@ -36,33 +36,6 @@ export const signIn = async (req: Request, res: Response) => {
 
         const { email, password } = req.body;
 
-        // @ts-ignore
-        // UserModel.findOne({ email }, (err: Error, user) => {
-        //     if (err) {
-        //         return res.status(422).json({ error: err });
-        //     }
-
-        //     if (!user) {
-        //         return res.status(400).json({ error: "Email doesn't exists" });
-        //     }
-
-        //     if (!user.authenticate(password)) {
-        //         return res.status(401).json({
-        //             error: "Email and password fo not match",
-        //         });
-        //     }
-
-        //     const token = jwt.sign({ _id: user._id }, process.env.SECRET);
-
-        //     res.cookie("token", token, {
-        //         expires: new Date(Date.now() + 9999),
-        //     });
-
-        //     const { email, firstName, lastName } = user;
-
-        //     return res.json({ token, user: { email, firstName, lastName } });
-        // });
-
         const user = await UserModel.findOne({ email });
 
         if (!user) {
