@@ -4,7 +4,6 @@ import { validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
 
 import { NextFunction, Request, Response } from "express";
-import type { Error } from "mongoose";
 import { expressjwt } from "express-jwt";
 
 export const signUp = async (req: Request, res: Response) => {
@@ -44,6 +43,7 @@ export const signIn = async (req: Request, res: Response) => {
             return res.status(400).json({ error: "Email doesn't exists" });
         }
 
+        // @ts-expect-error
         if (!user.authenticate(password)) {
             return res.status(401).json({
                 error: "Email and password fo not match",
