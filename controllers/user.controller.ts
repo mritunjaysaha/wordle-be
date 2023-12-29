@@ -1,10 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { UserModel } from "../models/user.model";
-import type { IUser } from "../models/user.model";
-
-type RequestWithProfile = Request & {
-    profile: IUser;
-};
+import { RequestWithProfile } from "../types/RequestWithProfile";
 
 export const getUserById = async (
     req: RequestWithProfile,
