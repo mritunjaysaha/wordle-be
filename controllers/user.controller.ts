@@ -24,3 +24,13 @@ export const getUserById = async (
 
     next();
 };
+
+export const getUser = (req: RequestWithProfile, res: Response) => {
+    req.profile.salt = undefined;
+    req.profile.encryptedPassword = undefined;
+
+    req.profile.solvedWordsCount = req.profile.solvedWords.length;
+    req.profile.solvedWords = undefined;
+
+    return res.json(req.profile);
+};

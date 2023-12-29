@@ -9,9 +9,10 @@ export interface IUser extends Document {
     encryptedPassword: string;
     salt: string;
     solvedWords: string[];
+    solvedWordsCount: number;
 }
 
-const UserSchema: Schema = new Schema(
+const UserSchema: Schema = new Schema<IUser>(
     {
         firstName: {
             type: String,
@@ -37,7 +38,11 @@ const UserSchema: Schema = new Schema(
         salt: {
             type: String,
         },
-        words: [],
+        solvedWords: [],
+        solvedWordsCount: {
+            type: Number,
+            default: 0,
+        },
     },
     { timestamps: true }
 );
