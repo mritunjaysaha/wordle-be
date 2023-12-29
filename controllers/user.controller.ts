@@ -24,3 +24,10 @@ export const getUserById = async (
 
     next();
 };
+
+export const getUser = (req: RequestWithProfile, res: Response) => {
+    req.profile.salt = undefined;
+    req.profile.encryptedPassword = undefined;
+
+    return res.json(req.profile);
+};

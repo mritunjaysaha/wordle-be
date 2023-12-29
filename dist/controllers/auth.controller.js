@@ -29,7 +29,9 @@ const signUp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         return res.json({ firstName, lastName, email });
     }
     catch (err) {
-        return res.status(400).json({ error: err.message });
+        return res
+            .status(400)
+            .json({ error: err.message, message: "Sign up failed" });
     }
 });
 exports.signUp = signUp;
@@ -61,7 +63,11 @@ const signIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             return res.json({ token, user: { email, firstName, lastName } });
         });
     }
-    catch (err) { }
+    catch (err) {
+        return res
+            .status(400)
+            .json({ error: err.message, message: "Login Failed" });
+    }
 });
 exports.signIn = signIn;
 const signOut = (req, res) => {

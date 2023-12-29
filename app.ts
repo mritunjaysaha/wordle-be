@@ -5,10 +5,12 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
+import { connectDB } from "./config/db.config";
+
 // ROUTES
 import wordRoutesV1 from "./routes/v1/words.routes";
 import authRoutesV1 from "./routes/v1/auth.routes";
-import { connectDB } from "./config/db.config";
+import userRoutesV1 from "./routes/v1/user.routes";
 
 // INITIALIZE APP
 const app = express();
@@ -27,5 +29,6 @@ app.get("/", (req, res) => {
 
 app.use("/api/v1/words", wordRoutesV1);
 app.use("/api/v1/auth", authRoutesV1);
+app.use("/api/v1/users", userRoutesV1);
 
 export { app };

@@ -22,7 +22,9 @@ export const signUp = async (req: Request, res: Response) => {
 
         return res.json({ firstName, lastName, email });
     } catch (err: any) {
-        return res.status(400).json({ error: err.message });
+        return res
+            .status(400)
+            .json({ error: err.message, message: "Sign up failed" });
     }
 };
 
@@ -62,7 +64,11 @@ export const signIn = async (req: Request, res: Response) => {
 
             return res.json({ token, user: { email, firstName, lastName } });
         });
-    } catch (err) {}
+    } catch (err) {
+        return res
+            .status(400)
+            .json({ error: err.message, message: "Login Failed" });
+    }
 };
 
 export const signOut = (req: Request, res: Response) => {

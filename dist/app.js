@@ -8,10 +8,11 @@ require("dotenv").config();
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
+const db_config_1 = require("./config/db.config");
 // ROUTES
 const words_routes_1 = __importDefault(require("./routes/v1/words.routes"));
 const auth_routes_1 = __importDefault(require("./routes/v1/auth.routes"));
-const db_config_1 = require("./config/db.config");
+const user_routes_1 = __importDefault(require("./routes/v1/user.routes"));
 // INITIALIZE APP
 const app = (0, express_1.default)();
 exports.app = app;
@@ -26,4 +27,5 @@ app.get("/", (req, res) => {
 });
 app.use("/api/v1/words", words_routes_1.default);
 app.use("/api/v1/auth", auth_routes_1.default);
+app.use("/api/v1/users", user_routes_1.default);
 //# sourceMappingURL=app.js.map
