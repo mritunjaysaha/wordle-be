@@ -2,15 +2,15 @@ require("dotenv").config();
 
 import express from "express";
 
-import cors from "cors";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 import { connectDB } from "./config/db.config";
 
 // ROUTES
-import wordRoutesV1 from "./routes/v1/words.routes";
 import authRoutesV1 from "./routes/v1/auth.routes";
 import userRoutesV1 from "./routes/v1/user.routes";
+import wordRoutesV1 from "./routes/v1/words.routes";
 
 // INITIALIZE APP
 const app = express();
@@ -19,7 +19,7 @@ const app = express();
 connectDB();
 
 // INITIALIZE MIDDLEWARE
-app.use(cors({ origin: true, credentials: true }));
+app.use(cors({ origin: true }));
 app.use(cookieParser());
 app.use(express.json());
 
