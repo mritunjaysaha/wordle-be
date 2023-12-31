@@ -98,7 +98,9 @@ export const isAuthenticated = (
     // @ts-ignore
     const { profile, auth } = req;
 
-    const checker = profile && auth && profile._id.toString() === auth._id;
+    console.log({ auth });
+
+    const checker = profile && auth && profile.email === auth.email;
 
     if (!checker) {
         return res.status(401).json({ error: "ACCESS DENIED" });

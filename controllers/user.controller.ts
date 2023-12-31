@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 import { UserModel } from "../models/user.model";
 import { RequestWithProfile } from "../types/RequestWithProfile";
 
@@ -22,11 +22,18 @@ export const getUserById = async (
 };
 
 export const getUser = (req: RequestWithProfile, res: Response) => {
-    req.profile.salt = undefined;
-    req.profile.encryptedPassword = undefined;
-
     req.profile.solvedWordsCount = req.profile.solvedWords.length;
-    req.profile.solvedWords = undefined;
 
-    return res.json(req.profile);
+    const { email, firstName, lastName, solvedWordsCount } = req.profile;
+
+    return res.json({
+        success: true,
+        message: "User info fetched",
+        user: {
+            email,
+            lastName,
+            firstName,
+            solvedWordsCount,
+        },
+    });
 };
