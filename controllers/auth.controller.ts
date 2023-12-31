@@ -1,5 +1,5 @@
-import { UserModel } from "../models/user.model";
 import { validationResult } from "express-validator";
+import { UserModel } from "../models/user.model";
 
 import jwt from "jsonwebtoken";
 
@@ -17,9 +17,17 @@ export const signUp = async (req: Request, res: Response) => {
         const user = new UserModel(req.body);
         const savedUser = await user.save();
 
-        const { firstName, lastName, email } = savedUser;
-
-        return res.json({ firstName, lastName, email });
+        if (savedUser) {
+            return res.json({
+                success: true,
+                message: "Sign up successful",
+            });
+        } else {
+            return res.json({
+                success: true,
+                message: "Sign up failed. Failed to save user",
+            });
+        }
     } catch (err: any) {
         return res
             .status(400)
@@ -46,6 +54,7 @@ export const signIn = async (req: Request, res: Response) => {
         // @ts-expect-error
         if (!user.authenticate(password)) {
             return res.status(401).json({
+                success: false,
                 error: "Email and password fo not match",
             });
         }
@@ -58,9 +67,14 @@ export const signIn = async (req: Request, res: Response) => {
 
         const { firstName, lastName } = user;
 
-        return res.json({ token, user: { email, firstName, lastName } });
+        return res.json({
+            success: true,
+            message: "Login successfully",
+            token,
+            user: { email, firstName, lastName },
+        });
     } catch (err) {
-        return res.status(400).json({ error: err.message });
+        return res.status(400).json({ success: false, message: err.message });
     }
 };
 

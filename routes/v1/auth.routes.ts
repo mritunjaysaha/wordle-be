@@ -1,10 +1,10 @@
-import { Router, Request, Response } from "express";
+import { Router } from "express";
 import { check } from "express-validator";
 import {
-    signOut,
     isSignedIn,
-    signUp,
     signIn,
+    signOut,
+    signUp,
 } from "../../controllers/auth.controller";
 import { getUserById } from "../../controllers/user.controller";
 
@@ -19,10 +19,6 @@ router.param("userId", getUserById);
 router.post(
     "/signup",
     [
-        check(
-            "firstName",
-            "First name should be at least 1 character"
-        ).isLength({ min: 1 }),
         check("email", "E-mail is required").isEmail(),
         check(
             "password",

@@ -1,5 +1,5 @@
-import { model, Schema, Model, Document } from "mongoose";
 import crypto from "crypto";
+import { Document, Model, Schema, model } from "mongoose";
 import { v1 as uuidV1 } from "uuid";
 
 export interface IUser extends Document {
@@ -16,7 +16,6 @@ const UserSchema: Schema = new Schema<IUser>(
     {
         firstName: {
             type: String,
-            required: true,
             maxlength: 32,
             trim: true,
         },
@@ -24,7 +23,6 @@ const UserSchema: Schema = new Schema<IUser>(
             type: String,
             maxlength: 32,
             trim: true,
-            required: true,
         },
         email: {
             type: String,
