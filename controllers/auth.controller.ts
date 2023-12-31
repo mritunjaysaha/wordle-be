@@ -80,7 +80,7 @@ export const signIn = async (req: Request, res: Response) => {
 export const signOut = (req: Request, res: Response) => {
     res.clearCookie("token");
 
-    return res.json({ message: "signed out" });
+    return res.json({ success: true, message: "signed out" });
 };
 
 export const isSignedIn = expressjwt({
@@ -97,8 +97,6 @@ export const isAuthenticated = (
 ) => {
     // @ts-ignore
     const { profile, auth } = req;
-
-    console.log({ auth });
 
     const checker = profile && auth && profile.email === auth.email;
 

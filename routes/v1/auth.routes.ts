@@ -45,7 +45,7 @@ router.post(
  * @method GET
  * @route /api/v1/auth/logout
  */
-router.get("/logout", signOut);
+router.delete("/logout", isSignedIn, signOut);
 
 /**
  * @method GET
