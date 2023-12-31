@@ -54,6 +54,7 @@ export const signIn = async (req: Request, res: Response) => {
         // @ts-expect-error
         if (!user.authenticate(password)) {
             return res.status(401).json({
+                success: false,
                 error: "Email and password fo not match",
             });
         }
@@ -66,9 +67,14 @@ export const signIn = async (req: Request, res: Response) => {
 
         const { firstName, lastName } = user;
 
-        return res.json({ token, user: { email, firstName, lastName } });
+        return res.json({
+            success: true,
+            message: "Login successfully",
+            token,
+            user: { email, firstName, lastName },
+        });
     } catch (err) {
-        return res.status(400).json({ error: err.message });
+        return res.status(400).json({ success: false, message: err.message });
     }
 };
 
