@@ -59,19 +59,18 @@ export const signIn = async (req: Request, res: Response) => {
             });
         }
 
-        const token = jwt.sign({ _id: user._id }, process.env.SECRET);
+        const token = jwt.sign({ email }, process.env.SECRET, {
+            expiresIn: "7d",
+        });
 
         res.cookie("token", token, {
             expires: new Date(Date.now() + 9999),
         });
 
-        const { firstName, lastName } = user;
-
         return res.json({
             success: true,
             message: "Login successfully",
             token,
-            user: { email, firstName, lastName },
         });
     } catch (err) {
         return res.status(400).json({ success: false, message: err.message });
