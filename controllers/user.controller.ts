@@ -1,9 +1,6 @@
 import { NextFunction, Response } from "express";
 import { UserModel } from "../models/user.model";
-import {
-    RequestWithProfile,
-    RequestWithProfile,
-} from "../types/RequestWithProfile";
+import { RequestWithProfile } from "../types/RequestWithProfile";
 
 export const getUserById = async (
     req: RequestWithProfile,
