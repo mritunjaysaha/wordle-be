@@ -1,10 +1,9 @@
 import { Request, Response } from "express";
 
-import { RequestWithProfile } from "../types/RequestWithProfile";
 import { generateRandomWord } from "../utils/generateRandomWord";
+import { RequestWithProfile } from "../types/RequestWithProfile";
 
 import WORDS from "../data/words.json";
-import { UserModel } from "../models/user.model";
 
 export const getWord = (req: Request, res: Response) => {
     const word = generateRandomWord();
