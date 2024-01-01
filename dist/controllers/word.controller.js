@@ -31,4 +31,30 @@ const getWordForUser = (req, res) => {
         .json({ message: "All words generated. Can not generate new word" });
 };
 exports.getWordForUser = getWordForUser;
-//# sourceMappingURL=word.controller.js.map
+const putWordInUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const word = req.body.word;
+        const { email } = req.profile;
+        const user = yield user_model_1.UserModel.findOneAndUpdate({ email }, {
+            $addToSet: { solvedWords: word },
+            $inc: { solvedWordsCount: 1 },
+        }, { new: true });
+        if (user) {
+            return res.json({
+                success: true,
+                message: "User updated successfully",
+            });
+        }
+        else {
+            return res
+                .status(400)
+                .json({ success: false, message: "Failed to updated user" });
+        }
+    }
+    catch (err) {
+        return res
+            .status(500)
+            .json({ success: false, message: "Operation failed" });
+    }
+});
+exports.putWordInUser = putWordInUser;

@@ -34,3 +34,34 @@ export const getWordForUser = (req: RequestWithProfile, res: Response) => {
         .status(204)
         .json({ message: "All words generated. Can not generate new word" });
 };
+
+export const putWordInUser = async (req: RequestWithProfile, res: Response) => {
+    try {
+        const word = req.body.word;
+        const { email } = req.profile;
+
+        const user = await UserModel.findOneAndUpdate(
+            { email },
+            {
+                $addToSet: { solvedWords: word },
+                $inc: { solvedWordsCount: 1 },
+            },
+            { new: true }
+        );
+
+        if (user) {
+            return res.json({
+                success: true,
+                message: "User updated successfully",
+            });
+        } else {
+            return res
+                .status(400)
+                .json({ success: false, message: "Failed to updated user" });
+        }
+    } catch (err) {
+        return res
+            .status(500)
+            .json({ success: false, message: "Operation failed" });
+    }
+};
