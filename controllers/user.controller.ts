@@ -37,3 +37,17 @@ export const getUser = (req: RequestWithProfile, res: Response) => {
         },
     });
 };
+
+export const getLeaderBoard = async (req: Request, res: Response) => {
+    try {
+        const users = await UserModel.find(
+            { solvedWordsCount: { $gt: 0 } },
+            { _id: 0, solvedWordsCount: 1, email: 1 }
+        ).sort({ solvedWordsCount: -1 });
+        console.log({ users });
+
+        return res.json({ users });
+    } catch (err) {
+        return res.status(500).json();
+    }
+};

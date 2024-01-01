@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUser = exports.getUserById = void 0;
+exports.getLeaderBoard = exports.getUser = exports.getUserById = void 0;
 const user_model_1 = require("../models/user.model");
 const getUserById = (req, res, next, id) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("[getUserById]", { id });
@@ -36,4 +36,15 @@ const getUser = (req, res) => {
     });
 };
 exports.getUser = getUser;
+const getLeaderBoard = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const users = yield user_model_1.UserModel.find({ solvedWordsCount: { $gt: 0 } }, { _id: 0, solvedWordsCount: 1, email: 1 }).sort({ solvedWordsCount: -1 });
+        console.log({ users });
+        return res.json({ users });
+    }
+    catch (err) {
+        return res.status(500).json();
+    }
+});
+exports.getLeaderBoard = getLeaderBoard;
 //# sourceMappingURL=user.controller.js.map
