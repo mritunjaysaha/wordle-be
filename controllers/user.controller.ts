@@ -1,6 +1,9 @@
 import { NextFunction, Response } from "express";
 import { UserModel } from "../models/user.model";
-import { RequestWithProfile } from "../types/RequestWithProfile";
+import {
+    RequestWithProfile,
+    RequestWithProfile,
+} from "../types/RequestWithProfile";
 
 export const getUserById = async (
     req: RequestWithProfile,
@@ -38,7 +41,10 @@ export const getUser = (req: RequestWithProfile, res: Response) => {
     });
 };
 
-export const getLeaderBoard = async (req: Request, res: Response) => {
+export const getLeaderBoard = async (
+    req: RequestWithProfile,
+    res: Response
+) => {
     try {
         const users = await UserModel.find(
             { solvedWordsCount: { $gt: 0 } },
