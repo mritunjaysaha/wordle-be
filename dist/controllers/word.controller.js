@@ -61,7 +61,11 @@ const putWordInUser = (req, res) => __awaiter(void 0, void 0, void 0, function* 
                 .json({ success: false, message: "Failed to updated user" });
         }
     }
-    catch (err) { }
+    catch (err) {
+        return res
+            .status(500)
+            .json({ success: false, message: "Operation failed" });
+    }
 });
 exports.putWordInUser = putWordInUser;
 //# sourceMappingURL=word.controller.js.map

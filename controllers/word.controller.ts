@@ -60,5 +60,9 @@ export const putWordInUser = async (req: RequestWithProfile, res: Response) => {
                 .status(400)
                 .json({ success: false, message: "Failed to updated user" });
         }
-    } catch (err) {}
+    } catch (err) {
+        return res
+            .status(500)
+            .json({ success: false, message: "Operation failed" });
+    }
 };
