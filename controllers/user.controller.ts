@@ -49,8 +49,16 @@ export const getLeaderBoard = async (
         ).sort({ solvedWordsCount: -1 });
         console.log({ users });
 
-        return res.json({ users });
+        return res.json({
+            success: true,
+            message: "leader board generated",
+            users,
+        });
     } catch (err) {
-        return res.status(500).json();
+        return res.json({
+            success: false,
+            message: "MongoDB query failed",
+            users: [],
+        });
     }
 };

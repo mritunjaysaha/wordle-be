@@ -40,10 +40,18 @@ const getLeaderBoard = (req, res) => __awaiter(void 0, void 0, void 0, function*
     try {
         const users = yield user_model_1.UserModel.find({ solvedWordsCount: { $gt: 0 } }, { _id: 0, solvedWordsCount: 1, email: 1 }).sort({ solvedWordsCount: -1 });
         console.log({ users });
-        return res.json({ users });
+        return res.json({
+            success: true,
+            message: "leader board generated",
+            users,
+        });
     }
     catch (err) {
-        return res.status(500).json();
+        return res.json({
+            success: false,
+            message: "MongoDB query failed",
+            users: [],
+        });
     }
 });
 exports.getLeaderBoard = getLeaderBoard;
