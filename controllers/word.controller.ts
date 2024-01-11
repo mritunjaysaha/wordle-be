@@ -36,7 +36,7 @@ export const getWordForUser = (req: RequestWithProfile, res: Response) => {
         .json({ message: "All words generated. Can not generate new word" });
 };
 
-export const putWordInUser = async (req: RequestWithProfile, res: Response) => {
+export const addWordInUser = async (req: RequestWithProfile, res: Response) => {
     try {
         const word = req.body.word;
         const { email } = req.profile;

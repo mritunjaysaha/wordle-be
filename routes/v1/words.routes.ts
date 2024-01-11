@@ -1,6 +1,7 @@
 import { Router } from "express";
-import { getWord } from "../../controllers/word.controller";
+import { isAuthenticated, isSignedIn } from "../../controllers/auth.controller";
 import { getUserById } from "../../controllers/user.controller";
+import { addWordInUser, getWord } from "../../controllers/word.controller";
 
 const router = Router();
 
@@ -18,5 +19,12 @@ router.get("/", getWord);
  * @params userId
  */
 router.get("/:userId", getWord);
+
+/**
+ * @method POST
+ * @route /api/v1/auth/words/:uerId
+ * @params userId
+ */
+router.post("/:userId", isSignedIn, isAuthenticated, addWordInUser);
 
 export default router;

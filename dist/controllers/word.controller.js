@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.putWordInUser = exports.getWordForUser = exports.getWord = void 0;
+exports.addWordInUser = exports.getWordForUser = exports.getWord = void 0;
 const generateRandomWord_1 = require("../utils/generateRandomWord");
 const words_json_1 = __importDefault(require("../data/words.json"));
 const user_model_1 = require("../models/user.model");
@@ -41,7 +41,7 @@ const getWordForUser = (req, res) => {
         .json({ message: "All words generated. Can not generate new word" });
 };
 exports.getWordForUser = getWordForUser;
-const putWordInUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const addWordInUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const word = req.body.word;
         const { email } = req.profile;
@@ -67,5 +67,5 @@ const putWordInUser = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             .json({ success: false, message: "Operation failed" });
     }
 });
-exports.putWordInUser = putWordInUser;
+exports.addWordInUser = addWordInUser;
 //# sourceMappingURL=word.controller.js.map
