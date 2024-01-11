@@ -8,18 +8,19 @@ const router = (0, express_1.Router)();
 router.param("userId", user_controller_1.getUserById);
 /**
  * @method GET
- * @route /api/v1/auth/words
+ * @route /api/v1/words
+ * @params userId
  */
 router.get("/", word_controller_1.getWord);
 /**
  * @method GET
- * @route /api/v1/auth/words/:uerId
+ * @route /api/v1/words/:uerId
  * @params userId
  */
-router.get("/:userId", word_controller_1.getWord);
+router.get("/:userId", auth_controller_1.isSignedIn, auth_controller_1.isAuthenticated, word_controller_1.getWordSignedInUser);
 /**
  * @method POST
- * @route /api/v1/auth/words/:uerId
+ * @route /api/v1/words/:uerId
  * @params userId
  */
 router.post("/:userId", auth_controller_1.isSignedIn, auth_controller_1.isAuthenticated, word_controller_1.addWordInUser);

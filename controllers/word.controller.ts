@@ -19,6 +19,35 @@ export const getWord = (req: Request, res: Response) => {
     });
 };
 
+export const getWordSignedInUser = async (
+    req: RequestWithProfile,
+    res: Response
+) => {
+    const { solvedWords } = req.profile;
+    const totalWordsLength = WORDS.length;
+
+    while (solvedWords.length < totalWordsLength) {
+        const word = generateRandomWord();
+
+        const hintRes = await fetch(
+            `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`
+        );
+
+        const hintParsedRes = await hintRes.json();
+
+        if (!solvedWords.includes(word)) {
+            return res.json({
+                word,
+                hint: hintParsedRes[0].meanings[0].definitions[0].definition,
+            });
+        }
+    }
+
+    return res
+        .status(204)
+        .json({ message: "All words generated. Can not generate new word" });
+};
+
 export const getWordForUser = (req: RequestWithProfile, res: Response) => {
     const { solvedWords } = req.profile;
     const totalWordsLength = WORDS.length;
