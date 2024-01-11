@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addWordInUser = exports.getWordForUser = exports.getWord = void 0;
+exports.addWordInUser = exports.getWordForUser = exports.getWordSignedInUser = exports.getWord = void 0;
 const generateRandomWord_1 = require("../utils/generateRandomWord");
 const words_json_1 = __importDefault(require("../data/words.json"));
 const user_model_1 = require("../models/user.model");
@@ -27,6 +27,25 @@ const getWord = (req, res) => {
     });
 };
 exports.getWord = getWord;
+const getWordSignedInUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { solvedWords } = req.profile;
+    const totalWordsLength = words_json_1.default.length;
+    while (solvedWords.length < totalWordsLength) {
+        const word = (0, generateRandomWord_1.generateRandomWord)();
+        const hintRes = yield fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
+        const hintParsedRes = yield hintRes.json();
+        if (!solvedWords.includes(word)) {
+            return res.json({
+                word,
+                hint: hintParsedRes[0].meanings[0].definitions[0].definition,
+            });
+        }
+    }
+    return res
+        .status(204)
+        .json({ message: "All words generated. Can not generate new word" });
+});
+exports.getWordSignedInUser = getWordSignedInUser;
 const getWordForUser = (req, res) => {
     const { solvedWords } = req.profile;
     const totalWordsLength = words_json_1.default.length;
