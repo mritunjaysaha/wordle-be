@@ -10,10 +10,18 @@ export interface IUser extends Document {
     salt: string;
     solvedWords: string[];
     solvedWordsCount: number;
+    googleId: string;
+    username: string;
 }
 
 const UserSchema: Schema = new Schema<IUser>(
     {
+        googleId: {
+            type: String,
+        },
+        username: {
+            type: String,
+        },
         firstName: {
             type: String,
             maxlength: 32,

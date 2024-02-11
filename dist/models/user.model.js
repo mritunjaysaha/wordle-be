@@ -8,6 +8,12 @@ const crypto_1 = __importDefault(require("crypto"));
 const mongoose_1 = require("mongoose");
 const uuid_1 = require("uuid");
 const UserSchema = new mongoose_1.Schema({
+    googleId: {
+        type: String,
+    },
+    username: {
+        type: String,
+    },
     firstName: {
         type: String,
         maxlength: 32,

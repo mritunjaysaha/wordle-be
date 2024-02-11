@@ -19,7 +19,7 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const cors_1 = __importDefault(require("cors"));
 const express_session_1 = __importDefault(require("express-session"));
 const passport_1 = __importDefault(require("passport"));
-const passport_google_oauth20_1 = __importDefault(require("passport-google-oauth20"));
+const passport_google_oauth20_1 = require("passport-google-oauth20");
 const db_config_1 = require("./config/db.config");
 // ROUTES
 const user_model_1 = require("./models/user.model");
@@ -39,57 +39,59 @@ app.use((0, express_session_1.default)({
     secret: process.env.SECRET, //secret used to sign the session ID cookie
     resave: true, //save session on every request
     saveUninitialized: true, //save uninitialized sessions (new and not modified)
-    cookie: {
-        sameSite: "none", //allow cross-site requests from different origin
-        secure: true, //requires HTTPS. For local environment you may skip this.
-        maxAge: 1000 * 60 * 60 * 24 * 7, // One Week
-    },
 }));
 app.use(passport_1.default.initialize()); //initialize Passport authentication
 app.use(passport_1.default.session()); //use Passport for session authentication
-passport_1.default.serializeUser((user, done) => {
-    done(null, user._id);
-});
-passport_1.default.deserializeUser((id, done) => {
-    user_model_1.UserModel.findById(id, (err, doc) => {
-        done(null, doc);
-    });
-});
 //Google Strateg
-passport_1.default.use(new passport_google_oauth20_1.default({
+passport_1.default.use(new passport_google_oauth20_1.Strategy({
     clientID: process.env.GOOGLE_OAUTH_CLIENT_ID,
     clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
     callbackURL: process.env.GOOGLE_OAUTH_CALLBACK_URL,
-}, function (accessToken, refreshToken, profile, cb) {
-    user_model_1.UserModel.findOne({ googleId: profile.id }, (err, user) => __awaiter(this, void 0, void 0, function* () {
-        if (err)
-            return cb(err, null);
-        if (!user) {
-            const newUser = new User({
-                googleId: profile.id,
-                username: profile.displayName,
-            });
-            yield newUser.save();
-            cb(null, newUser);
-        }
-        cb(null, user);
-    }));
-}));
-app.get("/auth/google", passport_1.default.authenticate("google", { scope: ["profile"] }));
-app.get("/auth/google/callback", passport_1.default.authenticate("google", { failureRedirect: "/login" }), (req, res) => {
+}, (accessToken, refreshToken, profile, cb) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log({ profile });
+    const user = yield user_model_1.UserModel.findOne({ googleId: profile.id });
+    if (!user) {
+        const newUser = new user_model_1.UserModel({
+            googleId: profile.id,
+            username: profile.username,
+        });
+        yield newUser.save();
+        cb(null, newUser);
+    }
+    cb(null, user);
+})));
+passport_1.default.serializeUser((user, done) => {
+    done(null, user);
+});
+passport_1.default.deserializeUser((user, done) => {
+    done(null, user);
+});
+app.get("/api/v1/oauth/google", passport_1.default.authenticate("google", { scope: ["profile", "email"] }));
+app.get("/api/v1/oauth/google/callback", passport_1.default.authenticate("google", {
+    successRedirect: `${process.env.CLIENT_URL}/`,
+    failureRedirect: `${process.env.CLIENT_URL}/auth/login`,
+}), (req, res) => {
     //successful authentication, redirect home
+    console.log({ req });
     res.redirect(process.env.CLIENT_URL);
 });
 app.get("/getuser", (req, res) => {
     res.send(req.user);
 });
-app.get("/auth/logout", function (req, res, next) {
+app.get("/api/v1/oauth/login/success", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (req.user) {
+        res.status(200).json({ message: "user Login", user: req.user });
+    }
+    else {
+        res.status(400).json({ message: "Not Authorized" });
+    }
+}));
+app.get("/api/v1/oauth/logout", (req, res, next) => {
     req.logout(function (err) {
-        console.log("logged out");
         if (err) {
             return next(err);
         }
-        res.send("done");
+        res.redirect("http://localhost:3001");
     });
 });
 app.get("/", (req, res) => {
